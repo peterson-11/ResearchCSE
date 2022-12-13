@@ -1,0 +1,1846 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><style></style></head><body><u></u>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+<div>
+  <div id="m_notebook" class="m_border-box-sizing">
+    <div class="m_container" id="m_notebook-container">
+
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">### Dataset cleaning</span>
+<span class="m_kn">import</span> <span class="m_nn">csv</span>
+<span class="m_kn">import</span> <span class="m_nn">pandas</span> <span class="m_k">as</span> <span class="m_nn">pd</span>
+<span class="m_kn">from</span> <span class="m_nn">google.colab</span> <span class="m_kn">import</span> <span class="m_n">drive</span>
+<span class="m_n">drive</span><span class="m_o">.</span><span class="m_n">mount</span><span class="m_p">(</span><span class="m_s1">&#39;/content/gdrive&#39;</span><span class="m_p">)</span>
+
+
+<span class="m_n">mental_df</span> <span class="m_o">=</span> <span class="m_nb">open</span><span class="m_p">(</span><span class="m_s1">&#39;Mental.csv&#39;</span><span class="m_p">)</span>
+<span class="m_n">mdata</span> <span class="m_o">=</span> <span class="m_nb">list</span><span class="m_p">(</span><span class="m_n">csv</span><span class="m_o">.</span><span class="m_n">reader</span><span class="m_p">(</span><span class="m_n">mental_df</span><span class="m_p">))</span>
+
+<span class="m_n">indicator</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">group</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">state</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">subgroup</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">phase</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">tperiod</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">tperiodlabel</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">tperiodstart</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">date</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">tperiodend</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+
+<span class="m_k">for</span> <span class="m_n">i</span> <span class="m_ow">in</span> <span class="m_n">mdata</span><span class="m_p">:</span>
+  <span class="m_n">indicator</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">])</span>
+  <span class="m_n">group</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">1</span><span class="m_p">])</span>
+  <span class="m_n">state</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">2</span><span class="m_p">])</span>
+  <span class="m_n">subgroup</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">3</span><span class="m_p">])</span>
+  <span class="m_n">phase</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">4</span><span class="m_p">])</span>
+  <span class="m_n">tperiod</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">5</span><span class="m_p">])</span>
+  <span class="m_n">tperiodlabel</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">6</span><span class="m_p">])</span>
+  <span class="m_n">tperiodstart</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">7</span><span class="m_p">])</span>
+  <span class="m_n">date</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">8</span><span class="m_p">])</span>
+  <span class="m_n">tperiodend</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">i</span><span class="m_p">[</span><span class="m_mi">9</span><span class="m_p">])</span>
+
+
+<span class="m_k">del</span> <span class="m_n">indicator</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">group</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">state</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">subgroup</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">phase</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">tperiod</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">tperiodlabel</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">tperiodstart</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">date</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+<span class="m_k">del</span> <span class="m_n">tperiodend</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span>
+
+  
+<span class="m_n">test</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">newgroup</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">group</span><span class="m_p">)</span>
+<span class="m_n">newstate</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">state</span><span class="m_p">)</span>
+<span class="m_n">newsub</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">subgroup</span><span class="m_p">)</span>
+<span class="m_n">newphase</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">phase</span><span class="m_p">)</span>
+<span class="m_n">newtperiod</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">tperiod</span><span class="m_p">)</span>
+<span class="m_n">newtperiodlabel</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">tperiodlabel</span><span class="m_p">)</span>
+<span class="m_n">newtperiodstart</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">tperiodstart</span><span class="m_p">)</span>
+<span class="m_n">newdate</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">date</span><span class="m_p">)</span>
+<span class="m_n">newtperiodend</span> <span class="m_o">=</span> <span class="m_nb">set</span><span class="m_p">(</span><span class="m_n">tperiodend</span><span class="m_p">)</span>
+
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newgroup</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newstate</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newsub</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newphase</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newtperiod</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newtperiodlabel</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newtperiodstart</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newdate</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">newtperiodend</span><span class="m_p">)</span>
+
+
+
+
+<span class="m_n">a</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newgroup</span><span class="m_p">)</span>
+<span class="m_n">p</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newstate</span><span class="m_p">)</span>
+<span class="m_n">b</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newsub</span><span class="m_p">)</span>
+<span class="m_n">c</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newphase</span><span class="m_p">)</span>
+<span class="m_n">d</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newtperiod</span><span class="m_p">)</span>
+<span class="m_n">e</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newtperiodlabel</span><span class="m_p">)</span>
+<span class="m_n">f</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newtperiodstart</span><span class="m_p">)</span>
+<span class="m_n">g</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newdate</span><span class="m_p">)</span>
+<span class="m_n">m</span> <span class="m_o">=</span> <span class="m_nb">len</span><span class="m_p">(</span><span class="m_n">newtperiodend</span><span class="m_p">)</span>
+
+
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">a</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">p</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">b</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">c</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">d</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">e</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">f</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">g</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">m</span><span class="m_p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Mounted at /content/gdrive
+{&#39;By Sexual orientation&#39;, &#39;National Estimate&#39;, &#39;By Sex&#39;, &#39;By Race/Hispanic ethnicity&#39;, &#39;By Gender identity&#39;, &#39;By Age&#39;, &#39;By Disability status&#39;, &#39;By Education&#39;, &#39;By State&#39;}
+{&#39;Oregon&#39;, &#39;Indiana&#39;, &#39;Colorado&#39;, &#39;Georgia&#39;, &#39;New Hampshire&#39;, &#39;North Dakota&#39;, &#39;New York&#39;, &#39;Kentucky&#39;, &#39;Michigan&#39;, &#39;Iowa&#39;, &#39;Missouri&#39;, &#39;Washington&#39;, &#39;Virginia&#39;, &#39;Alaska&#39;, &#39;South Carolina&#39;, &#39;Arkansas&#39;, &#39;Utah&#39;, &#39;New Mexico&#39;, &#39;Idaho&#39;, &#39;Illinois&#39;, &#39;Tennessee&#39;, &#39;Nebraska&#39;, &#39;North Carolina&#39;, &#39;West Virginia&#39;, &#39;Texas&#39;, &#39;Mississippi&#39;, &#39;Delaware&#39;, &#39;Pennsylvania&#39;, &#39;Wyoming&#39;, &#39;Louisiana&#39;, &#39;Maine&#39;, &#39;District of Columbia&#39;, &#39;Vermont&#39;, &#39;Oklahoma&#39;, &#39;Ohio&#39;, &#39;South Dakota&#39;, &#39;Wisconsin&#39;, &#39;Hawaii&#39;, &#39;Minnesota&#39;, &#39;United States&#39;, &#39;New Jersey&#39;, &#39;Florida&#39;, &#39;Connecticut&#39;, &#39;Montana&#39;, &#39;Rhode Island&#39;, &#39;Alabama&#39;, &#39;Massachusetts&#39;, &#39;Arizona&#39;, &#39;Maryland&#39;, &#39;Nevada&#39;, &#39;California&#39;, &#39;Kansas&#39;}
+{&#39;With disability&#39;, &#39;Non-Hispanic Black, single race&#39;, &#39;New Hampshire&#39;, &#39;Gay or lesbian&#39;, &#39;Less than a high school diploma&#39;, &#39;80 years and above&#39;, &#39;Washington&#39;, &#39;Arkansas&#39;, &#39;Utah&#39;, &#39;Texas&#39;, &#39;Wyoming&#39;, &#39;Maine&#39;, &#39;District of Columbia&#39;, &#39;Vermont&#39;, &#39;Straight&#39;, &#39;Arizona&#39;, &#39;Nevada&#39;, &#39;70 - 79 years&#39;, &#39;Oregon&#39;, &#39;California&#39;, &#39;50 - 59 years&#39;, &#39;Indiana&#39;, &#39;40 - 49 years&#39;, &#39;North Dakota&#39;, &#39;Transgender&#39;, &#39;New York&#39;, &#39;Hispanic or Latino&#39;, &#39;Virginia&#39;, &#39;Cis-gender female&#39;, &quot;Some college/Associate&#39;s degree&quot;, &#39;New Mexico&#39;, &#39;Idaho&#39;, &#39;Nebraska&#39;, &#39;Non-Hispanic, other races and multiple races&#39;, &#39;North Carolina&#39;, &#39;Female&#39;, &#39;Male&#39;, &#39;South Dakota&#39;, &#39;Hawaii&#39;, &#39;United States&#39;, &#39;New Jersey&#39;, &#39;Connecticut&#39;, &#39;Non-Hispanic White, single race&#39;, &#39;Alabama&#39;, &#39;Maryland&#39;, &#39;18 - 29 years&#39;, &#39;Colorado&#39;, &#39;Georgia&#39;, &#39;Without disability&#39;, &#39;30 - 39 years&#39;, &#39;Iowa&#39;, &#39;Bisexual&#39;, &#39;Non-Hispanic Asian, single race&#39;, &#39;Louisiana&#39;, &#39;Oklahoma&#39;, &#39;Ohio&#39;, &#39;Wisconsin&#39;, &#39;Rhode Island&#39;, &#39;Montana&#39;, &#39;Massachusetts&#39;, &#39;Kansas&#39;, &#39;Kentucky&#39;, &#39;Michigan&#39;, &#39;60 - 69 years&#39;, &#39;Missouri&#39;, &#39;High school diploma or GED&#39;, &#39;Alaska&#39;, &#39;South Carolina&#39;, &#39;Illinois&#39;, &#39;Tennessee&#39;, &#39;West Virginia&#39;, &#39;Mississippi&#39;, &quot;Bachelor&#39;s degree or higher&quot;, &#39;Delaware&#39;, &#39;Pennsylvania&#39;, &#39;Minnesota&#39;, &#39;Florida&#39;, &#39;Cis-gender male&#39;}
+{&#39;-1&#39;, &#39;2&#39;, &#39;3.5&#39;, &#39;3.4&#39;, &#39;3.1&#39;, &#39;1&#39;, &#39;3 (Oct 28 â Dec 21)&#39;, &#39;3.2&#39;, &#39;3.6&#39;, &#39;3.3&#39;, &#39;3 (Jan 6 â Mar 29)&#39;}
+{&#39;12&#39;, &#39;29&#39;, &#39;32&#39;, &#39;44&#39;, &#39;45&#39;, &#39;43&#39;, &#39;35&#39;, &#39;37&#39;, &#39;5&#39;, &#39;4&#39;, &#39;9&#39;, &#39;40&#39;, &#39;2&#39;, &#39;19&#39;, &#39;33&#39;, &#39;16&#39;, &#39;10&#39;, &#39;17&#39;, &#39;51&#39;, &#39;46&#39;, &#39;15&#39;, &#39;31&#39;, &#39;34&#39;, &#39;36&#39;, &#39;3&#39;, &#39;14&#39;, &#39;28&#39;, &#39;30&#39;, &#39;18&#39;, &#39;24&#39;, &#39;20&#39;, &#39;41&#39;, &#39;27&#39;, &#39;39&#39;, &#39;50&#39;, &#39;48&#39;, &#39;49&#39;, &#39;25&#39;, &#39;26&#39;, &#39;6&#39;, &#39;7&#39;, &#39;21&#39;, &#39;1&#39;, &#39;8&#39;, &#39;42&#39;, &#39;47&#39;, &#39;23&#39;, &#39;22&#39;, &#39;13&#39;, &#39;38&#39;, &#39;11&#39;}
+{&#39;May 14 - May 19, 2020&#39;, &#39;Sep 16 - Sep 28, 2020&#39;, &#39;June 11 - June 16, 2020&#39;, &#39;Feb 23 - Mar 1, 2022&#39;, &#39;Jul 27 - Aug 8, 2022&#39;, &#39;Oct 5 - Oct 17, 2022&#39;, &#39;May 25 - May 31, 2022&#39;, &#39;Jan 26 - Feb 7, 2022&#39;, &#39;Jan 6 - Jan 18, 2021&#39;, &#39;Feb 17 - Mar 1, 2021&#39;, &#39;Nov 2 - Nov 14, 2022&#39;, &#39;June 18 - June 23, 2020&#39;, &#39;Jun 9 - Jun 21, 2021&#39;, &#39;Mar 2 - Mar 14, 2022&#39;, &#39;May 28 - June 2, 2020&#39;, &#39;Feb 3 - Feb 15, 2021&#39;, &#39;July 22 - Aug 18, 2020&#39;, &#39;Nov 25 - Dec 7, 2020&#39;, &#39;Jul 6 - Jul 20, 2021&#39;, &#39;Dec 1 - Dec 13, 2021&#39;, &#39;July 2 - July 7, 2020&#39;, &#39;Jan 20 - Feb 1, 2021&#39;, &#39;June 4 - June 9, 2020&#39;, &#39;Mar 3 - Mar 15, 2021&#39;, &#39;Mar 30 - Apr 11, 2022&#39;, &#39;Aug 19 - Aug 31, 2020&#39;, &#39;Sep 2 - Sep 14, 2020&#39;, &#39;Jun 1 - Jun 13, 2022&#39;, &#39;Aug 4 - Aug 16, 2021&#39;, &#39;Sep 1 - Sep 13, 2021&#39;, &#39;May 26 - Jun 7, 2021&#39;, &#39;Jun 23 - Jul 5, 2021&#39;, &#39;May 7 - May 12, 2020&#39;, &#39;July 9 - July 14, 2020&#39;, &#39;Oct 28 - Nov 9, 2020&#39;, &#39;May 21 - May 26, 2020&#39;, &#39;Sep 15 - Sep 27, 2021&#39;, &#39;Aug 24 - Sep 13, 2022&#39;, &#39;Sep 30 - Oct 12, 2020&#39;, &#39;Dec 22, 2020 - Jan 5, 2021&#39;, &#39;Dec 29, 2021 - Jan 10, 2022&#39;, &#39;Aug 18 - Aug 30, 2021&#39;, &#39;Apr 23 - May 5, 2020&#39;, &#39;Oct 14 - Oct 26, 2020&#39;, &#39;Mar 30 - Apr 13, 2021&#39;, &#39;Mar 17 - Mar 29, 2021&#39;, &#39;Nov 11 - Nov 23, 2020&#39;, &#39;Apr 28 - May 10, 2021&#39;, &#39;Jul 21 - Aug 2, 2021&#39;, &#39;July 16 - July 21, 2020&#39;, &#39;Sep 29 - Oct 11, 2021&#39;, &#39;Oct 12 - Nov 30, 2021&#39;, &#39;Apr 27 - May 9, 2022&#39;, &#39;Dec 9 - Dec 21, 2020&#39;, &#39;June 25 - June 30, 2020&#39;, &#39;May 12 - May 24, 2021&#39;, &#39;Sep 14 - Sep 26, 2022&#39;, &#39;Apr 14 - Apr 26, 2021&#39;, &#39;Jun 29 - Jul 11, 2022&#39;}
+{&#39;05/07/2020&#39;, &#39;05/26/2021&#39;, &#39;09/01/2021&#39;, &#39;11/02/2022&#39;, &#39;04/23/2020&#39;, &#39;03/17/2021&#39;, &#39;07/06/2021&#39;, &#39;07/02/2020&#39;, &#39;06/01/2022&#39;, &#39;05/21/2020&#39;, &#39;09/14/2022&#39;, &#39;10/05/2022&#39;, &#39;02/17/2021&#39;, &#39;09/16/2020&#39;, &#39;08/04/2021&#39;, &#39;11/25/2020&#39;, &#39;05/12/2021&#39;, &#39;09/29/2021&#39;, &#39;05/28/2020&#39;, &#39;06/09/2021&#39;, &#39;11/11/2020&#39;, &#39;03/30/2021&#39;, &#39;07/16/2020&#39;, &#39;03/02/2022&#39;, &#39;09/15/2021&#39;, &#39;06/25/2020&#39;, &#39;10/14/2020&#39;, &#39;04/27/2022&#39;, &#39;05/14/2020&#39;, &#39;06/29/2022&#39;, &#39;09/02/2020&#39;, &#39;12/22/2020&#39;, &#39;05/25/2022&#39;, &#39;06/18/2020&#39;, &#39;06/23/2021&#39;, &#39;07/21/2021&#39;, &#39;07/09/2020&#39;, &#39;01/20/2021&#39;, &#39;12/29/2021&#39;, &#39;07/22/2020&#39;, &#39;03/30/2022&#39;, &#39;02/23/2022&#39;, &#39;03/03/2021&#39;, &#39;10/12/2021&#39;, &#39;07/27/2022&#39;, &#39;04/28/2021&#39;, &#39;08/18/2021&#39;, &#39;01/26/2022&#39;, &#39;02/03/2021&#39;, &#39;08/24/2022&#39;, &#39;09/30/2020&#39;, &#39;12/01/2021&#39;, &#39;06/04/2020&#39;, &#39;06/11/2020&#39;, &#39;12/09/2020&#39;, &#39;10/28/2020&#39;, &#39;01/06/2021&#39;, &#39;04/14/2021&#39;, &#39;08/19/2020&#39;}
+{&#39;10/26/2020&#39;, &#39;11/09/2020&#39;, &#39;08/30/2021&#39;, &#39;05/19/2020&#39;, &#39;10/17/2022&#39;, &#39;08/16/2021&#39;, &#39;04/13/2021&#39;, &#39;12/21/2020&#39;, &#39;12/13/2021&#39;, &#39;02/07/2022&#39;, &#39;12/07/2020&#39;, &#39;01/05/2021&#39;, &#39;05/09/2022&#39;, &#39;01/18/2021&#39;, &#39;06/21/2021&#39;, &#39;07/14/2020&#39;, &#39;08/02/2021&#39;, &#39;08/18/2020&#39;, &#39;09/26/2022&#39;, &#39;05/10/2021&#39;, &#39;09/28/2020&#39;, &#39;09/13/2021&#39;, &#39;07/20/2021&#39;, &#39;01/10/2022&#39;, &#39;02/15/2021&#39;, &#39;05/31/2022&#39;, &#39;09/13/2022&#39;, &#39;03/01/2021&#39;, &#39;06/09/2020&#39;, &#39;05/24/2021&#39;, &#39;08/31/2020&#39;, &#39;07/11/2022&#39;, &#39;06/07/2021&#39;, &#39;06/30/2020&#39;, &#39;10/11/2021&#39;, &#39;11/14/2022&#39;, &#39;09/14/2020&#39;, &#39;03/29/2021&#39;, &#39;10/12/2020&#39;, &#39;03/14/2022&#39;, &#39;08/08/2022&#39;, &#39;04/11/2022&#39;, &#39;06/16/2020&#39;, &#39;06/02/2020&#39;, &#39;04/26/2021&#39;, &#39;05/05/2020&#39;, &#39;07/21/2020&#39;, &#39;09/27/2021&#39;, &#39;06/13/2022&#39;, &#39;03/15/2021&#39;, &#39;11/30/2021&#39;, &#39;07/07/2020&#39;, &#39;02/01/2021&#39;, &#39;05/26/2020&#39;, &#39;05/12/2020&#39;, &#39;11/23/2020&#39;, &#39;07/05/2021&#39;, &#39;06/23/2020&#39;, &#39;03/01/2022&#39;}
+{&#39;&#39;, &#39;34.8&#39;, &#39;58.8&#39;, &#39;32.0&#39;, &#39;45.4&#39;, &#39;39.1&#39;, &#39;45.7&#39;, &#39;78.0&#39;, &#39;25.3&#39;, &#39;9.8&#39;, &#39;45.2&#39;, &#39;12.0&#39;, &#39;54.6&#39;, &#39;51.8&#39;, &#39;34.0&#39;, &#39;30.1&#39;, &#39;37.7&#39;, &#39;19.6&#39;, &#39;31.8&#39;, &#39;36.0&#39;, &#39;19.1&#39;, &#39;42.8&#39;, &#39;13.5&#39;, &#39;32.2&#39;, &#39;22.0&#39;, &#39;20.4&#39;, &#39;38.7&#39;, &#39;49.1&#39;, &#39;64.8&#39;, &#39;45.9&#39;, &#39;33.6&#39;, &#39;37.9&#39;, &#39;53.4&#39;, &#39;17.8&#39;, &#39;22.7&#39;, &#39;78.1&#39;, &#39;20.2&#39;, &#39;30.8&#39;, &#39;33.9&#39;, &#39;39.6&#39;, &#39;10.8&#39;, &#39;21.2&#39;, &#39;44.4&#39;, &#39;48.7&#39;, &#39;44.6&#39;, &#39;19.2&#39;, &#39;12.2&#39;, &#39;10.6&#39;, &#39;46.4&#39;, &#39;22.9&#39;, &#39;18.4&#39;, &#39;28.6&#39;, &#39;27.5&#39;, &#39;27.8&#39;, &#39;40.9&#39;, &#39;29.5&#39;, &#39;13.9&#39;, &#39;13.4&#39;, &#39;55.5&#39;, &#39;15.9&#39;, &#39;62.3&#39;, &#39;12.8&#39;, &#39;31.0&#39;, &#39;24.2&#39;, &#39;30.5&#39;, &#39;56.2&#39;, &#39;13.7&#39;, &#39;39.5&#39;, &#39;20.8&#39;, &#39;16.2&#39;, &#39;54.1&#39;, &#39;58.5&#39;, &#39;15.1&#39;, &#39;27.3&#39;, &#39;53.0&#39;, &#39;21.3&#39;, &#39;54.2&#39;, &#39;54.7&#39;, &#39;9.3&#39;, &#39;9.5&#39;, &#39;20.0&#39;, &#39;37.8&#39;, &#39;58.9&#39;, &#39;43.3&#39;, &#39;82.0&#39;, &#39;48.3&#39;, &#39;27.4&#39;, &#39;18.6&#39;, &#39;49.4&#39;, &#39;67.3&#39;, &#39;27.1&#39;, &#39;23.0&#39;, &#39;19.0&#39;, &#39;16.1&#39;, &#39;53.9&#39;, &#39;47.2&#39;, &#39;61.9&#39;, &#39;27.9&#39;, &#39;32.7&#39;, &#39;12.6&#39;, &#39;35.5&#39;, &#39;78.7&#39;, &#39;47.5&#39;, &#39;38.4&#39;, &#39;56.3&#39;, &#39;20.6&#39;, &#39;38.5&#39;, &#39;15.5&#39;, &#39;42.3&#39;, &#39;13.6&#39;, &#39;48.2&#39;, &#39;10.7&#39;, &#39;22.4&#39;, &#39;36.6&#39;, &#39;26.8&#39;, &#39;11.5&#39;, &#39;31.5&#39;, &#39;20.3&#39;, &#39;62.0&#39;, &#39;51.3&#39;, &#39;25.1&#39;, &#39;44.9&#39;, &#39;22.6&#39;, &#39;29.1&#39;, &#39;16.8&#39;, &#39;41.9&#39;, &#39;22.8&#39;, &#39;44.2&#39;, &#39;75.3&#39;, &#39;25.9&#39;, &#39;50.5&#39;, &#39;36.7&#39;, &#39;14.7&#39;, &#39;30.7&#39;, &#39;49.9&#39;, &#39;34.9&#39;, &#39;16.7&#39;, &#39;60.4&#39;, &#39;31.6&#39;, &#39;52.8&#39;, &#39;55.0&#39;, &#39;52.3&#39;, &#39;14.1&#39;, &#39;58.3&#39;, &#39;42.2&#39;, &#39;28.5&#39;, &#39;18.3&#39;, &#39;59.7&#39;, &#39;48.9&#39;, &#39;40.3&#39;, &#39;43.9&#39;, &#39;6.4&#39;, &#39;19.8&#39;, &#39;12.1&#39;, &#39;15.0&#39;, &#39;55.2&#39;, &#39;55.3&#39;, &#39;42.7&#39;, &#39;10.9&#39;, &#39;52.7&#39;, &#39;29.7&#39;, &#39;70.8&#39;, &#39;21.5&#39;, &#39;14.6&#39;, &#39;43.0&#39;, &#39;63.3&#39;, &#39;26.9&#39;, &#39;72.9&#39;, &#39;23.5&#39;, &#39;11.8&#39;, &#39;50.1&#39;, &#39;54.3&#39;, &#39;37.4&#39;, &#39;15.8&#39;, &#39;34.3&#39;, &#39;63.5&#39;, &#39;22.3&#39;, &#39;35.9&#39;, &#39;42.0&#39;, &#39;48.4&#39;, &#39;21.1&#39;, &#39;52.9&#39;, &#39;25.4&#39;, &#39;51.2&#39;, &#39;38.9&#39;, &#39;34.7&#39;, &#39;25.6&#39;, &#39;27.7&#39;, &#39;54.5&#39;, &#39;65.9&#39;, &#39;39.4&#39;, &#39;51.0&#39;, &#39;20.7&#39;, &#39;34.2&#39;, &#39;42.1&#39;, &#39;18.7&#39;, &#39;30.6&#39;, &#39;53.1&#39;, &#39;50.6&#39;, &#39;41.5&#39;, &#39;15.4&#39;, &#39;32.6&#39;, &#39;52.4&#39;, &#39;29.4&#39;, &#39;13.1&#39;, &#39;37.5&#39;, &#39;39.9&#39;, &#39;15.6&#39;, &#39;44.3&#39;, &#39;28.9&#39;, &#39;39.2&#39;, &#39;12.5&#39;, &#39;76.5&#39;, &#39;35.6&#39;, &#39;20.9&#39;, &#39;38.2&#39;, &#39;57.4&#39;, &#39;47.3&#39;, &#39;53.8&#39;, &#39;63.0&#39;, &#39;11.1&#39;, &#39;35.0&#39;, &#39;26.6&#39;, &#39;14.8&#39;, &#39;16.4&#39;, &#39;57.0&#39;, &#39;41.0&#39;, &#39;26.1&#39;, &#39;40.1&#39;, &#39;36.3&#39;, &#39;26.2&#39;, &#39;38.1&#39;, &#39;71.8&#39;, &#39;32.3&#39;, &#39;25.2&#39;, &#39;14.9&#39;, &#39;23.9&#39;, &#39;21.7&#39;, &#39;46.1&#39;, &#39;27.2&#39;, &#39;25.5&#39;, &#39;17.2&#39;, &#39;32.8&#39;, &#39;8.2&#39;, &#39;31.4&#39;, &#39;46.3&#39;, &#39;40.7&#39;, &#39;19.7&#39;, &#39;56.1&#39;, &#39;29.9&#39;, &#39;37.2&#39;, &#39;13.0&#39;, &#39;71.6&#39;, &#39;29.2&#39;, &#39;11.2&#39;, &#39;58.7&#39;, &#39;50.9&#39;, &#39;49.7&#39;, &#39;30.0&#39;, &#39;36.8&#39;, &#39;50.2&#39;, &#39;46.8&#39;, &#39;65.5&#39;, &#39;29.6&#39;, &#39;29.8&#39;, &#39;16.5&#39;, &#39;77.5&#39;, &#39;24.0&#39;, &#39;48.5&#39;, &#39;23.7&#39;, &#39;34.4&#39;, &#39;65.7&#39;, &#39;11.7&#39;, &#39;24.4&#39;, &#39;11.4&#39;, &#39;45.3&#39;, &#39;28.2&#39;, &#39;23.4&#39;, &#39;28.4&#39;, &#39;50.3&#39;, &#39;17.5&#39;, &#39;45.0&#39;, &#39;64.3&#39;, &#39;55.1&#39;, &#39;36.1&#39;, &#39;11.6&#39;, &#39;7.6&#39;, &#39;62.8&#39;, &#39;53.2&#39;, &#39;33.5&#39;, &#39;9.0&#39;, &#39;58.0&#39;, &#39;12.7&#39;, &#39;14.2&#39;, &#39;44.5&#39;, &#39;17.7&#39;, &#39;38.8&#39;, &#39;49.6&#39;, &#39;55.7&#39;, &#39;61.8&#39;, &#39;17.6&#39;, &#39;16.3&#39;, &#39;41.6&#39;, &#39;33.0&#39;, &#39;43.5&#39;, &#39;26.4&#39;, &#39;42.6&#39;, &#39;47.4&#39;, &#39;18.9&#39;, &#39;16.6&#39;, &#39;38.0&#39;, &#39;33.2&#39;, &#39;45.6&#39;, &#39;39.7&#39;, &#39;45.8&#39;, &#39;17.4&#39;, &#39;20.1&#39;, &#39;44.0&#39;, &#39;41.8&#39;, &#39;40.4&#39;, &#39;14.3&#39;, &#39;15.7&#39;, &#39;23.3&#39;, &#39;41.2&#39;, &#39;22.5&#39;, &#39;18.2&#39;, &#39;42.5&#39;, &#39;18.0&#39;, &#39;25.8&#39;, &#39;18.8&#39;, &#39;59.2&#39;, &#39;18.5&#39;, &#39;49.8&#39;, &#39;10.3&#39;, &#39;43.1&#39;, &#39;31.3&#39;, &#39;53.7&#39;, &#39;62.9&#39;, &#39;60.3&#39;, &#39;23.2&#39;, &#39;48.0&#39;, &#39;19.3&#39;, &#39;64.9&#39;, &#39;37.0&#39;, &#39;43.2&#39;, &#39;18.1&#39;, &#39;41.3&#39;, &#39;9.7&#39;, &#39;35.7&#39;, &#39;26.5&#39;, &#39;28.7&#39;, &#39;13.8&#39;, &#39;28.1&#39;, &#39;32.5&#39;, &#39;49.3&#39;, &#39;19.9&#39;, &#39;50.4&#39;, &#39;59.1&#39;, &#39;33.4&#39;, &#39;13.3&#39;, &#39;43.6&#39;, &#39;40.2&#39;, &#39;25.0&#39;, &#39;23.8&#39;, &#39;31.2&#39;, &#39;41.7&#39;, &#39;47.6&#39;, &#39;9.4&#39;, &#39;46.6&#39;, &#39;48.6&#39;, &#39;15.2&#39;, &#39;64.7&#39;, &#39;40.0&#39;, &#39;42.9&#39;, &#39;61.4&#39;, &#39;39.8&#39;, &#39;33.8&#39;, &#39;62.6&#39;, &#39;29.3&#39;, &#39;27.6&#39;, &#39;73.2&#39;, &#39;41.4&#39;, &#39;47.8&#39;, &#39;10.2&#39;, &#39;43.8&#39;, &#39;62.2&#39;, &#39;56.5&#39;, &#39;27.0&#39;, &#39;9.9&#39;, &#39;29.0&#39;, &#39;24.1&#39;, &#39;55.6&#39;, &#39;24.8&#39;, &#39;46.7&#39;, &#39;9.6&#39;, &#39;60.2&#39;, &#39;76.2&#39;, &#39;44.8&#39;, &#39;32.4&#39;, &#39;40.5&#39;, &#39;48.8&#39;, &#39;10.1&#39;, &#39;12.3&#39;, &#39;19.5&#39;, &#39;15.3&#39;, &#39;35.8&#39;, &#39;66.4&#39;, &#39;49.0&#39;, &#39;59.0&#39;, &#39;43.4&#39;, &#39;30.2&#39;, &#39;45.1&#39;, &#39;39.3&#39;, &#39;50.7&#39;, &#39;26.0&#39;, &#39;45.5&#39;, &#39;37.1&#39;, &#39;11.9&#39;, &#39;66.1&#39;, &#39;62.4&#39;, &#39;52.5&#39;, &#39;35.2&#39;, &#39;44.7&#39;, &#39;61.6&#39;, &#39;60.6&#39;, &#39;64.5&#39;, &#39;38.3&#39;, &#39;16.0&#39;, &#39;67.6&#39;, &#39;13.2&#39;, &#39;58.4&#39;, &#39;43.7&#39;, &#39;37.3&#39;, &#39;17.0&#39;, &#39;21.8&#39;, &#39;41.1&#39;, &#39;59.8&#39;, &#39;21.4&#39;, &#39;21.0&#39;, &#39;53.5&#39;, &#39;30.3&#39;, &#39;24.5&#39;, &#39;48.1&#39;, &#39;24.7&#39;, &#39;52.6&#39;, &#39;19.4&#39;, &#39;65.4&#39;, &#39;21.9&#39;, &#39;11.0&#39;, &#39;33.1&#39;, &#39;57.8&#39;, &#39;17.9&#39;, &#39;31.1&#39;, &#39;46.0&#39;, &#39;17.1&#39;, &#39;23.6&#39;, &#39;35.3&#39;, &#39;44.1&#39;, &#39;56.0&#39;, &#39;36.2&#39;, &#39;61.5&#39;, &#39;36.5&#39;, &#39;16.9&#39;, &#39;30.9&#39;, &#39;34.6&#39;, &#39;74.2&#39;, &#39;79.9&#39;, &#39;7.0&#39;, &#39;51.6&#39;, &#39;24.3&#39;, &#39;65.3&#39;, &#39;75.0&#39;, &#39;30.4&#39;, &#39;22.1&#39;, &#39;49.5&#39;, &#39;69.3&#39;, &#39;32.1&#39;, &#39;62.7&#39;, &#39;56.7&#39;, &#39;61.2&#39;, &#39;50.0&#39;, &#39;56.9&#39;, &#39;62.1&#39;, &#39;17.3&#39;, &#39;51.7&#39;, &#39;70.0&#39;, &#39;49.2&#39;, &#39;9.1&#39;, &#39;21.6&#39;, &#39;39.0&#39;, &#39;46.5&#39;, &#39;35.1&#39;, &#39;47.7&#39;, &#39;10.5&#39;, &#39;25.7&#39;, &#39;34.1&#39;, &#39;26.7&#39;, &#39;8.6&#39;, &#39;31.9&#39;, &#39;81.5&#39;, &#39;58.1&#39;, &#39;24.6&#39;, &#39;28.0&#39;, &#39;55.9&#39;, &#39;38.6&#39;, &#39;55.4&#39;, &#39;46.9&#39;, &#39;36.9&#39;, &#39;40.6&#39;, &#39;71.0&#39;, &#39;32.9&#39;, &#39;40.8&#39;, &#39;20.5&#39;, &#39;33.3&#39;, &#39;14.0&#39;, &#39;37.6&#39;, &#39;31.7&#39;, &#39;42.4&#39;, &#39;64.4&#39;, &#39;14.4&#39;, &#39;23.1&#39;, &#39;26.3&#39;, &#39;33.7&#39;, &#39;7.4&#39;, &#39;22.2&#39;, &#39;34.5&#39;, &#39;47.1&#39;, &#39;12.4&#39;, &#39;14.5&#39;, &#39;36.4&#39;, &#39;28.3&#39;, &#39;46.2&#39;, &#39;52.1&#39;, &#39;35.4&#39;, &#39;24.9&#39;, &#39;28.8&#39;}
+9
+52
+78
+11
+51
+59
+59
+59
+536
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_kn">import</span> <span class="m_nn">csv</span> 
+<span class="m_kn">import</span> <span class="m_nn">pandas</span> <span class="m_k">as</span> <span class="m_nn">pd</span>
+<span class="m_n">covidfile</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">read_csv</span><span class="m_p">(</span><span class="m_s1">&#39;<a href="https://www.google.com/url?q=https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv&amp;source=gmail-html&amp;ust=1671048780485000&amp;usg=AOvVaw1pxuM4Xkm2Wlpt1rw_CdSz" target="_blank" rel="noreferrer">https://raw.<wbr>githubusercontent.com/nytimes/<wbr>covid-19-data/master/us-<wbr>states.csv</a>&#39;</span><span class="m_p">)</span>
+<span class="m_n">covidframe</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">DataFrame</span><span class="m_p">(</span><span class="m_n">covidfile</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">)</span>
+
+<span class="m_n">coviddates</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">covidstates</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">covidfips</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">covidcases</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+<span class="m_n">coviddeaths</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+
+<span class="m_n">coviddates</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>date&#39;</span><span class="m_p">])</span>
+<span class="m_n">covidstates</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">[</span><span class="m_s1"><wbr>&#39;state&#39;</span><span class="m_p">])</span>
+<span class="m_n">covidfips</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>fips&#39;</span><span class="m_p">])</span>
+<span class="m_n">covidcases</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>cases&#39;</span><span class="m_p">])</span>
+<span class="m_n">coviddeaths</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">covidframe</span><span class="m_p">[</span><span class="m_s1"><wbr>&#39;deaths&#39;</span><span class="m_p">])</span>
+
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">coviddates</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">covidstates</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">covidfips</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">covidcases</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">coviddeaths</span><span class="m_p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>             date          state  fips    cases  deaths
+0      2020-01-21     Washington    53        1       0
+1      2020-01-22     Washington    53        1       0
+2      2020-01-23     Washington    53        1       0
+3      2020-01-24       Illinois    17        1       0
+4      2020-01-24     Washington    53        1       0
+...           ...            ...   ...      ...     ...
+56281  2022-12-12       Virginia    51  2167396   22682
+56282  2022-12-12     Washington    53  1866343   14862
+56283  2022-12-12  West Virginia    54   617812    7774
+56284  2022-12-12      Wisconsin    55  1937605   15749
+56285  2022-12-12        Wyoming    56   181695    1939
+
+[56286 rows x 5 columns]
+[0        2020-01-21
+1        2020-01-22
+2        2020-01-23
+3        2020-01-24
+4        2020-01-24
+            ...    
+56281    2022-12-12
+56282    2022-12-12
+56283    2022-12-12
+56284    2022-12-12
+56285    2022-12-12
+Name: date, Length: 56286, dtype: object]
+[0           Washington
+1           Washington
+2           Washington
+3             Illinois
+4           Washington
+             ...      
+56281         Virginia
+56282       Washington
+56283    West Virginia
+56284        Wisconsin
+56285          Wyoming
+Name: state, Length: 56286, dtype: object]
+[0        53
+1        53
+2        53
+3        17
+4        53
+         ..
+56281    51
+56282    53
+56283    54
+56284    55
+56285    56
+Name: fips, Length: 56286, dtype: int64]
+[0              1
+1              1
+2              1
+3              1
+4              1
+          ...   
+56281    2167396
+56282    1866343
+56283     617812
+56284    1937605
+56285     181695
+Name: cases, Length: 56286, dtype: int64]
+[0            0
+1            0
+2            0
+3            0
+4            0
+         ...  
+56281    22682
+56282    14862
+56283     7774
+56284    15749
+56285     1939
+Name: deaths, Length: 56286, dtype: int64]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">### General United States Data:</span>
+
+<span class="m_kn">import</span> <span class="m_nn">csv</span>
+<span class="m_kn">import</span> <span class="m_nn">pandas</span> <span class="m_k">as</span> <span class="m_nn">pd</span>
+<span class="m_kn">from</span> <span class="m_nn">google.colab</span> <span class="m_kn">import</span> <span class="m_n">drive</span>
+<span class="m_n">drive</span><span class="m_o">.</span><span class="m_n">mount</span><span class="m_p">(</span><span class="m_s1">&#39;/content/gdrive&#39;</span><span class="m_p">)</span>
+
+<span class="m_n">mental_df</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">read_csv</span><span class="m_p">(</span><span class="m_s1">&#39;/content/Mental.<wbr>csv&#39;</span><span class="m_p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Drive already mounted at /content/gdrive; to attempt to forcibly remount, call drive.mount(&quot;/content/gdrive&quot;, force_remount=True).
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_n">mental_df</span><span class="m_o">.</span><span class="m_n">head</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt m_output_prompt">Out[ ]:</div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea m_output_execute_result">
+
+  <div id="m_df-71a25a85-bb7e-433f-a0cb-90b882e576ef">
+    <div class="m_colab-df-container">
+      <div>
+
+<table border="1" class="m_dataframe">
+  <thead>
+    <tr style="text-align:right">
+      <th></th>
+      <th>Indicator</th>
+      <th>Group</th>
+      <th>State</th>
+      <th>Subgroup</th>
+      <th>Phase</th>
+      <th>Time Period</th>
+      <th>Time Period Label</th>
+      <th>Time Period Start Date</th>
+      <th>Time Period End Date</th>
+      <th>Value</th>
+      <th>Low CI</th>
+      <th>High CI</th>
+      <th>Confidence Interval</th>
+      <th>Quartile Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Symptoms of Depressive Disorder</td>
+      <td>National Estimate</td>
+      <td>United States</td>
+      <td>United States</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Apr 23 - May 5, 2020</td>
+      <td>04/23/2020</td>
+      <td>05/05/2020</td>
+      <td>23.5</td>
+      <td>22.7</td>
+      <td>24.3</td>
+      <td>22.7 - 24.3</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Symptoms of Depressive Disorder</td>
+      <td>By Age</td>
+      <td>United States</td>
+      <td>18 - 29 years</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Apr 23 - May 5, 2020</td>
+      <td>04/23/2020</td>
+      <td>05/05/2020</td>
+      <td>32.7</td>
+      <td>30.2</td>
+      <td>35.2</td>
+      <td>30.2 - 35.2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Symptoms of Depressive Disorder</td>
+      <td>By Age</td>
+      <td>United States</td>
+      <td>30 - 39 years</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Apr 23 - May 5, 2020</td>
+      <td>04/23/2020</td>
+      <td>05/05/2020</td>
+      <td>25.7</td>
+      <td>24.1</td>
+      <td>27.3</td>
+      <td>24.1 - 27.3</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Symptoms of Depressive Disorder</td>
+      <td>By Age</td>
+      <td>United States</td>
+      <td>40 - 49 years</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Apr 23 - May 5, 2020</td>
+      <td>04/23/2020</td>
+      <td>05/05/2020</td>
+      <td>24.8</td>
+      <td>23.3</td>
+      <td>26.2</td>
+      <td>23.3 - 26.2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Symptoms of Depressive Disorder</td>
+      <td>By Age</td>
+      <td>United States</td>
+      <td>50 - 59 years</td>
+      <td>1</td>
+      <td>1</td>
+      <td>Apr 23 - May 5, 2020</td>
+      <td>04/23/2020</td>
+      <td>05/05/2020</td>
+      <td>23.2</td>
+      <td>21.5</td>
+      <td>25.0</td>
+      <td>21.5 - 25.0</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <button class="m_colab-df-convert" title="Convert this dataframe to an interactive table." style="display:none">
+        
+  <u></u>
+    <u></u>
+    <u></u><u></u>
+  <u></u>
+      </button>
+      
+  
+
+      
+    </div>
+  </div>
+  
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">### Function to call specific data</span>
+
+<span class="m_k">def</span> <span class="m_nf">data_cleaner</span><span class="m_p">(</span><span class="m_n">criterion</span><span class="m_p">):</span>
+  <span class="m_k">if</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]</span> <span class="m_o">!=</span> <span class="m_s1">&#39;Both&#39;</span><span class="m_p">:</span>
+    <span class="m_n">cleaned</span> <span class="m_o">=</span> <span class="m_n">mental_df</span><span class="m_o">.</span><span class="m_n">loc</span><span class="m_p">[</span><span class="m_n">mental_df</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Indicator&#39;</span><span class="m_p">]</span> <span class="m_o">==</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">0</span><span class="m_p">]]</span>
+  <span class="m_n">cleaned</span>  <span class="m_o">=</span> <span class="m_n">cleaned</span><span class="m_o">.</span><span class="m_n">loc</span><span class="m_p">[</span><span class="m_n">mental_df</span><span class="m_p">[</span><span class="m_s1">&#39;Group&#39;</span><span class="m_p">]</span> <span class="m_o">==</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">1</span><span class="m_p">]]</span>
+  <span class="m_k">if</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">2</span><span class="m_p">]</span> <span class="m_o">!=</span> <span class="m_s1">&#39;x&#39;</span><span class="m_p">:</span>
+    <span class="m_n">cleaned</span>  <span class="m_o">=</span> <span class="m_n">cleaned</span><span class="m_o">.</span><span class="m_n">loc</span><span class="m_p">[</span><span class="m_n">mental_df</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Subgroup&#39;</span><span class="m_p">]</span> <span class="m_o">==</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">2</span><span class="m_p">]]</span>
+  <span class="m_k">if</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">3</span><span class="m_p">]</span> <span class="m_o">!=</span> <span class="m_s1">&#39;x&#39;</span><span class="m_p">:</span>
+    <span class="m_n">cleaned</span>  <span class="m_o">=</span> <span class="m_n">cleaned</span><span class="m_o">.</span><span class="m_n">loc</span><span class="m_p">[</span><span class="m_n">mental_df</span><span class="m_p">[</span><span class="m_s1">&#39;State&#39;</span><span class="m_p">]</span> <span class="m_o">==</span> <span class="m_n">criterion</span><span class="m_p">[</span><span class="m_mi">3</span><span class="m_p">]]</span>
+  <span class="m_k">return</span> <span class="m_n">cleaned</span>
+  <span class="m_c1">#mask = mental_df[&#39;Indicator&#39;] == indicator</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">### Function to create criteria for selection</span>
+
+<span class="m_k">def</span> <span class="m_nf">criteria</span><span class="m_p">():</span>
+  <span class="m_n">crit_list</span> <span class="m_o">=</span> <span class="m_p">[]</span>
+  <span class="m_n">illness</span> <span class="m_o">=</span> <span class="m_nb">input</span><span class="m_p">(</span><span class="m_s1">&#39;Anxiety or Depression?&#39;</span><span class="m_p">)</span>
+  <span class="m_k">if</span> <span class="m_n">illness</span> <span class="m_o">==</span> <span class="m_s1">&#39;Anxiety&#39;</span><span class="m_p">:</span>
+    <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_s1">&#39;Symptoms of Anxiety Disorder&#39;</span><span class="m_p">)</span>
+  <span class="m_k">elif</span> <span class="m_n">illness</span> <span class="m_o">==</span> <span class="m_s1">&#39;Depression&#39;</span><span class="m_p">:</span>
+    <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_s1">&#39;Symptoms of Depressive Disorder&#39;</span><span class="m_p">)</span>
+  <span class="m_k">else</span><span class="m_p">:</span>
+    <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">illness</span><span class="m_p">)</span>
+  <span class="m_n">group</span> <span class="m_o">=</span> <span class="m_nb">input</span><span class="m_p">(</span><span class="m_s1">&#39;What is the primary comparison?&#39;</span><span class="m_p">)</span>
+  <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">group</span><span class="m_p">)</span>
+  <span class="m_n">sub</span> <span class="m_o">=</span> <span class="m_nb">input</span><span class="m_p">(</span><span class="m_s1">&#39;What is the secondary level you would like to compare at? Press x for all subgroups&#39;</span><span class="m_p">)</span>
+  <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">sub</span><span class="m_p">)</span>
+  <span class="m_n">level</span> <span class="m_o">=</span> <span class="m_nb">input</span><span class="m_p">(</span><span class="m_s1">&#39;What location scope are you looking at? Press x for all location levels&#39;</span><span class="m_p">)</span>
+  <span class="m_n">crit_list</span><span class="m_o">.</span><span class="m_n">append</span><span class="m_p">(</span><span class="m_n">level</span><span class="m_p">)</span>
+  <span class="m_k">return</span> <span class="m_n">crit_list</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">### Calling data test</span>
+<span class="m_kn">import</span> <span class="m_nn">matplotlib.pyplot</span> <span class="m_k">as</span> <span class="m_nn">plt</span>
+
+
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Age
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+                          Indicator   Group          State  \
+71     Symptoms of Anxiety Disorder  By Age  United States   
+72     Symptoms of Anxiety Disorder  By Age  United States   
+73     Symptoms of Anxiety Disorder  By Age  United States   
+74     Symptoms of Anxiety Disorder  By Age  United States   
+75     Symptoms of Anxiety Disorder  By Age  United States   
+...                             ...     ...            ...   
+11565  Symptoms of Anxiety Disorder  By Age  United States   
+11566  Symptoms of Anxiety Disorder  By Age  United States   
+11567  Symptoms of Anxiety Disorder  By Age  United States   
+11568  Symptoms of Anxiety Disorder  By Age  United States   
+11569  Symptoms of Anxiety Disorder  By Age  United States   
+
+                 Subgroup Phase  Time Period     Time Period Label  \
+71          18 - 29 years     1            1  Apr 23 - May 5, 2020   
+72          30 - 39 years     1            1  Apr 23 - May 5, 2020   
+73          40 - 49 years     1            1  Apr 23 - May 5, 2020   
+74          50 - 59 years     1            1  Apr 23 - May 5, 2020   
+75          60 - 69 years     1            1  Apr 23 - May 5, 2020   
+...                   ...   ...          ...                   ...   
+11565       40 - 49 years   3.6           51  Nov 2 - Nov 14, 2022   
+11566       50 - 59 years   3.6           51  Nov 2 - Nov 14, 2022   
+11567       60 - 69 years   3.6           51  Nov 2 - Nov 14, 2022   
+11568       70 - 79 years   3.6           51  Nov 2 - Nov 14, 2022   
+11569  80 years and above   3.6           51  Nov 2 - Nov 14, 2022   
+
+      Time Period Start Date Time Period End Date  Value  Low CI  High CI  \
+71                04/23/2020           05/05/2020   40.2    38.1     42.4   
+72                04/23/2020           05/05/2020   34.4    32.6     36.1   
+73                04/23/2020           05/05/2020   34.1    32.1     36.2   
+74                04/23/2020           05/05/2020   31.0    29.0     33.1   
+75                04/23/2020           05/05/2020   24.9    23.6     26.3   
+...                      ...                  ...    ...     ...      ...   
+11565             11/02/2022           11/14/2022   33.6    31.5     35.7   
+11566             11/02/2022           11/14/2022   29.8    28.1     31.4   
+11567             11/02/2022           11/14/2022   23.4    21.4     25.4   
+11568             11/02/2022           11/14/2022   16.1    14.3     18.0   
+11569             11/02/2022           11/14/2022   16.6    11.6     22.6   
+
+      Confidence Interval Quartile Range  
+71            38.1 - 42.4            NaN  
+72            32.6 - 36.1            NaN  
+73            32.1 - 36.2            NaN  
+74            29.0 - 33.1            NaN  
+75            23.6 - 26.3            NaN  
+...                   ...            ...  
+11565         31.5 - 35.7            NaN  
+11566         28.1 - 31.4            NaN  
+11567         21.4 - 25.4            NaN  
+11568         14.3 - 18.0            NaN  
+11569         11.6 - 22.6            NaN  
+
+[413 rows x 14 columns]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_n">dft</span> <span class="m_o">=</span> <span class="m_n">mental_df</span><span class="m_o">.</span><span class="m_n">reset_index</span><span class="m_p">()</span>
+<span class="m_n">dft</span> <span class="m_o">=</span> <span class="m_n">dft</span><span class="m_o">.</span><span class="m_n">pivot_table</span><span class="m_p">(</span><span class="m_n">values</span> <span class="m_o">=</span> <span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                      <span class="m_n">index</span> <span class="m_o">=</span> <span class="m_p">[</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Group&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;State&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;<wbr>Indicator&#39;</span><span class="m_p">],</span>
+                      <span class="m_n">columns</span> <span class="m_o">=</span> <span class="m_s1">&#39;Time Period&#39;</span>
+                      <span class="m_p">)</span>
+<span class="m_n">time_data</span> <span class="m_o">=</span> <span class="m_n">dft</span><span class="m_o">.</span><span class="m_n">reset_index</span><span class="m_p">()</span>
+<span class="m_c1">#time_data</span>
+<span class="m_n">long_time</span> <span class="m_o">=</span> <span class="m_n">time_data</span><span class="m_o">.</span><span class="m_n">iloc</span><span class="m_p">[:,</span><span class="m_mi">5</span><span class="m_p">:]</span>
+<span class="m_n">long_time</span><span class="m_o">.</span><span class="m_n">index</span><span class="m_o">.</span><span class="m_n">rename</span><span class="m_p">(</span><span class="m_s1">&#39;<wbr>Subsection&#39;</span><span class="m_p">,</span> <span class="m_n">inplace</span> <span class="m_o">=</span> <span class="m_kc">True</span><span class="m_p">)</span>
+<span class="m_n">long_time</span><span class="m_p">[</span><span class="m_s1">&#39;Index&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">time_data</span><span class="m_p">[[</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_s1">&#39;Group&#39;</span><span class="m_p">,</span> <span class="m_s1">&#39;State&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">]]</span><span class="m_o">.</span><span class="m_n">agg</span><span class="m_p">(</span><span class="m_s1">&#39; &#39;</span><span class="m_o">.</span><span class="m_n">join</span><span class="m_p">,</span> <span class="m_n">axis</span><span class="m_o">=</span><span class="m_mi">1</span><span class="m_p">)</span>
+<span class="m_n">long_time</span><span class="m_o">.</span><span class="m_n">set_index</span><span class="m_p">(</span><span class="m_s1">&#39;Index&#39;</span><span class="m_p">)</span>
+<span class="m_n">long_time</span><span class="m_p">[</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">time_data</span><span class="m_p">[</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">]</span>
+<span class="m_n">long_time</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt m_output_prompt">Out[ ]:</div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea m_output_execute_result">
+
+  <div id="m_df-e2cef30f-6b81-4a3f-8cb1-7a857950b8b1">
+    <div class="m_colab-df-container">
+      <div>
+
+<table border="1" class="m_dataframe">
+  <thead>
+    <tr style="text-align:right">
+      <th>Time Period</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>...</th>
+      <th>44</th>
+      <th>45</th>
+      <th>46</th>
+      <th>47</th>
+      <th>48</th>
+      <th>49</th>
+      <th>50</th>
+      <th>51</th>
+      <th>Index</th>
+      <th>Indicator</th>
+    </tr>
+    <tr>
+      <th>Subsection</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>42.0</td>
+      <td>38.6</td>
+      <td>39.1</td>
+      <td>42.2</td>
+      <td>41.7</td>
+      <td>42.9</td>
+      <td>42.8</td>
+      <td>42.4</td>
+      <td>44.4</td>
+      <td>47.7</td>
+      <td>...</td>
+      <td>41.5</td>
+      <td>39.1</td>
+      <td>44.9</td>
+      <td>42.9</td>
+      <td>39.7</td>
+      <td>42.7</td>
+      <td>44.4</td>
+      <td>44.3</td>
+      <td>18 - 29 years By Age United States Symptoms of...</td>
+      <td>Symptoms of Anxiety Disorder</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>47.4</td>
+      <td>47.7</td>
+      <td>46.6</td>
+      <td>49.3</td>
+      <td>49.3</td>
+      <td>48.7</td>
+      <td>50.0</td>
+      <td>49.4</td>
+      <td>50.4</td>
+      <td>55.0</td>
+      <td>...</td>
+      <td>47.5</td>
+      <td>45.7</td>
+      <td>50.0</td>
+      <td>49.7</td>
+      <td>45.4</td>
+      <td>48.7</td>
+      <td>51.7</td>
+      <td>50.9</td>
+      <td>18 - 29 years By Age United States Symptoms of...</td>
+      <td>Symptoms of Anxiety Disorder or Depressive Dis...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>36.2</td>
+      <td>36.7</td>
+      <td>36.7</td>
+      <td>36.8</td>
+      <td>37.0</td>
+      <td>36.8</td>
+      <td>36.7</td>
+      <td>36.6</td>
+      <td>35.8</td>
+      <td>39.0</td>
+      <td>...</td>
+      <td>35.3</td>
+      <td>34.5</td>
+      <td>36.6</td>
+      <td>36.9</td>
+      <td>32.4</td>
+      <td>34.4</td>
+      <td>39.0</td>
+      <td>35.3</td>
+      <td>18 - 29 years By Age United States Symptoms of...</td>
+      <td>Symptoms of Depressive Disorder</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>34.3</td>
+      <td>32.2</td>
+      <td>35.2</td>
+      <td>35.8</td>
+      <td>36.8</td>
+      <td>35.8</td>
+      <td>36.0</td>
+      <td>38.9</td>
+      <td>40.6</td>
+      <td>42.9</td>
+      <td>...</td>
+      <td>35.4</td>
+      <td>36.6</td>
+      <td>35.9</td>
+      <td>36.8</td>
+      <td>35.7</td>
+      <td>37.7</td>
+      <td>35.5</td>
+      <td>37.0</td>
+      <td>30 - 39 years By Age United States Symptoms of...</td>
+      <td>Symptoms of Anxiety Disorder</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>39.3</td>
+      <td>37.8</td>
+      <td>39.5</td>
+      <td>40.6</td>
+      <td>41.5</td>
+      <td>40.3</td>
+      <td>40.8</td>
+      <td>44.1</td>
+      <td>45.9</td>
+      <td>46.8</td>
+      <td>...</td>
+      <td>39.7</td>
+      <td>40.6</td>
+      <td>39.5</td>
+      <td>41.0</td>
+      <td>39.8</td>
+      <td>41.8</td>
+      <td>40.4</td>
+      <td>40.9</td>
+      <td>30 - 39 years By Age United States Symptoms of...</td>
+      <td>Symptoms of Anxiety Disorder or Depressive Dis...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>229</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>25.6</td>
+      <td>25.1</td>
+      <td>27.0</td>
+      <td>27.4</td>
+      <td>26.5</td>
+      <td>29.9</td>
+      <td>29.3</td>
+      <td>29.6</td>
+      <td>Without disability By Disability status United...</td>
+      <td>Symptoms of Anxiety Disorder or Depressive Dis...</td>
+    </tr>
+    <tr>
+      <th>230</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>17.0</td>
+      <td>16.3</td>
+      <td>17.2</td>
+      <td>17.5</td>
+      <td>16.6</td>
+      <td>18.9</td>
+      <td>18.7</td>
+      <td>18.3</td>
+      <td>Without disability By Disability status United...</td>
+      <td>Symptoms of Depressive Disorder</td>
+    </tr>
+    <tr>
+      <th>231</th>
+      <td>22.5</td>
+      <td>24.1</td>
+      <td>24.0</td>
+      <td>25.3</td>
+      <td>21.3</td>
+      <td>24.2</td>
+      <td>23.7</td>
+      <td>31.6</td>
+      <td>31.5</td>
+      <td>29.4</td>
+      <td>...</td>
+      <td>27.6</td>
+      <td>22.8</td>
+      <td>29.1</td>
+      <td>31.7</td>
+      <td>23.9</td>
+      <td>30.7</td>
+      <td>25.7</td>
+      <td>30.9</td>
+      <td>Wyoming By State Wyoming Symptoms of Anxiety D...</td>
+      <td>Symptoms of Anxiety Disorder</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>27.9</td>
+      <td>28.0</td>
+      <td>28.3</td>
+      <td>32.9</td>
+      <td>29.4</td>
+      <td>32.6</td>
+      <td>28.4</td>
+      <td>34.2</td>
+      <td>36.0</td>
+      <td>33.0</td>
+      <td>...</td>
+      <td>31.3</td>
+      <td>26.7</td>
+      <td>33.7</td>
+      <td>34.5</td>
+      <td>28.2</td>
+      <td>37.4</td>
+      <td>27.5</td>
+      <td>35.6</td>
+      <td>Wyoming By State Wyoming Symptoms of Anxiety D...</td>
+      <td>Symptoms of Anxiety Disorder or Depressive Dis...</td>
+    </tr>
+    <tr>
+      <th>233</th>
+      <td>18.6</td>
+      <td>20.7</td>
+      <td>18.8</td>
+      <td>25.2</td>
+      <td>20.9</td>
+      <td>18.9</td>
+      <td>17.6</td>
+      <td>23.4</td>
+      <td>26.5</td>
+      <td>21.7</td>
+      <td>...</td>
+      <td>18.3</td>
+      <td>18.7</td>
+      <td>22.1</td>
+      <td>21.4</td>
+      <td>19.5</td>
+      <td>26.1</td>
+      <td>17.9</td>
+      <td>23.6</td>
+      <td>Wyoming By State Wyoming Symptoms of Depressiv...</td>
+      <td>Symptoms of Depressive Disorder</td>
+    </tr>
+  </tbody>
+</table>
+<p>234 rows Ã 52 columns</p>
+</div>
+      <button class="m_colab-df-convert" title="Convert this dataframe to an interactive table." style="display:none">
+        
+  <u></u>
+    <u></u>
+    <u></u><u></u>
+  <u></u>
+      </button>
+      
+  
+
+      
+    </div>
+  </div>
+  
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">###Reference/Baseline data frame</span>
+<span class="m_kn">import</span> <span class="m_nn">plotly.express</span> <span class="m_k">as</span> <span class="m_nn">px</span>
+
+<span class="m_n">baseline_data</span> <span class="m_o">=</span> <span class="m_n">mental_df</span><span class="m_o">.</span><span class="m_n">loc</span><span class="m_p">[</span><span class="m_n">mental_df</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Group&#39;</span><span class="m_p">]</span><span class="m_o">==</span><span class="m_s1">&#39;National Estimate&#39;</span><span class="m_p">]</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">baseline_data</span><span class="m_o">.</span><span class="m_n">nsmallest</span><span class="m_p">(</span><span class="m_mi"><wbr>5</span><span class="m_p">,[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">],</span><span class="m_n">keep</span><span class="m_o">=</span><span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">baseline_data</span><span class="m_o">.</span><span class="m_n">nlargest</span><span class="m_p">(</span><span class="m_mi">5</span><span class="m_p"><wbr>,[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">],</span> <span class="m_n">keep</span> <span class="m_o">=</span> <span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_n">fig</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">line</span><span class="m_p">(</span><span class="m_n">baseline_data</span><span class="m_p">,</span> <span class="m_n">x</span> <span class="m_o">=</span> <span class="m_s2">&quot;Time Period&quot;</span><span class="m_p">,</span> <span class="m_n">y</span> <span class="m_o">=</span> <span class="m_s2">&quot;Value&quot;</span><span class="m_p">,</span> <span class="m_n">color</span> <span class="m_o">=</span> <span class="m_s2">&quot;Indicator&quot;</span><span class="m_p">)</span>
+<span class="m_n">fig</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>                            Indicator              Group          State  \
+6489  Symptoms of Depressive Disorder  National Estimate  United States   
+6921  Symptoms of Depressive Disorder  National Estimate  United States   
+7434  Symptoms of Depressive Disorder  National Estimate  United States   
+8625  Symptoms of Depressive Disorder  National Estimate  United States   
+6273  Symptoms of Depressive Disorder  National Estimate  United States   
+
+           Subgroup Phase  Time Period      Time Period Label  \
+6489  United States   3.1           31   May 26 - Jun 7, 2021   
+6921  United States   3.1           33   Jun 23 - Jul 5, 2021   
+7434  United States   3.2           35   Aug 4 - Aug 16, 2021   
+8625  United States   3.3           40   Dec 1 - Dec 13, 2021   
+6273  United States   3.1           30  May 12 - May 24, 2021   
+
+     Time Period Start Date Time Period End Date  Value  Low CI  High CI  \
+6489             05/26/2021           06/07/2021   20.9    20.2     21.6   
+6921             06/23/2021           07/05/2021   20.9    20.2     21.6   
+7434             08/04/2021           08/16/2021   21.4    20.6     22.1   
+8625             12/01/2021           12/13/2021   21.4    20.7     22.1   
+6273             05/12/2021           05/24/2021   21.5    21.0     22.1   
+
+     Confidence Interval Quartile Range  
+6489         20.2 - 21.6            NaN  
+6921         20.2 - 21.6            NaN  
+7434         20.6 - 22.1            NaN  
+8625         20.7 - 22.1            NaN  
+6273         21.0 - 22.1            NaN  
+                                              Indicator              Group  \
+3977  Symptoms of Anxiety Disorder or Depressive Dis...  National Estimate   
+4397  Symptoms of Anxiety Disorder or Depressive Dis...  National Estimate   
+4874  Symptoms of Anxiety Disorder or Depressive Dis...  National Estimate   
+4187  Symptoms of Anxiety Disorder or Depressive Dis...  National Estimate   
+3767  Symptoms of Anxiety Disorder or Depressive Dis...  National Estimate   
+
+              State       Subgroup                Phase  Time Period  \
+3977  United States  United States  3 (Oct 28 â Dec 21)           19   
+4397  United States  United States  3 (Oct 28 â Dec 21)           21   
+4874  United States  United States   3 (Jan 6 â Mar 29)           23   
+4187  United States  United States  3 (Oct 28 â Dec 21)           20   
+3767  United States  United States  3 (Oct 28 â Dec 21)           18   
+
+          Time Period Label Time Period Start Date Time Period End Date  \
+3977  Nov 11 - Nov 23, 2020             11/11/2020           11/23/2020   
+4397   Dec 9 - Dec 21, 2020             12/09/2020           12/21/2020   
+4874   Jan 20 - Feb 1, 2021             01/20/2021           02/01/2021   
+4187   Nov 25 - Dec 7, 2020             11/25/2020           12/07/2020   
+3767   Oct 28 - Nov 9, 2020             10/28/2020           11/09/2020   
+
+      Value  Low CI  High CI Confidence Interval Quartile Range  
+3977   42.6    41.8     43.4         41.8 - 43.4            NaN  
+4397   42.4    41.5     43.3         41.5 - 43.3            NaN  
+4874   41.5    40.7     42.2         40.7 - 42.2            NaN  
+4187   41.4    40.7     42.2         40.7 - 42.2            NaN  
+3767   41.4    40.6     42.2         40.6 - 42.2            NaN  
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_e6ba6557-fff6-453e-bb76-46d2dbf623c6" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">###Visulatizations</span>
+<span class="m_c1">###Age over time</span>
+<span class="m_kn">import</span> <span class="m_nn">plotly.express</span> <span class="m_k">as</span> <span class="m_nn">px</span>
+
+<span class="m_n">fig</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">line</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_p">,</span> <span class="m_n">x</span> <span class="m_o">=</span> <span class="m_s2">&quot;Time Period&quot;</span><span class="m_p">,</span> <span class="m_n">y</span> <span class="m_o">=</span> <span class="m_s2">&quot;Value&quot;</span><span class="m_p">,</span> <span class="m_n">color</span> <span class="m_o">=</span> <span class="m_s2">&quot;Subgroup&quot;</span><span class="m_p">)</span>
+<span class="m_n">fig</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_1bc1323e-c003-42a7-8522-00c16700c959" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">###Visualization 2</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">fig_animated_all</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">histogram</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                               <span class="m_n">animation_frame</span><span class="m_o">=</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">,</span> <span class="m_n">log_x</span><span class="m_o">=</span><span class="m_kc">False</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_o">.</span><span class="m_n">nsmallest</span><span class="m_p">(</span><span class="m_mi">5</span><span class="m_p">,[</span><span class="m_s1"><wbr>&#39;Value&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">],</span><span class="m_n">keep</span><span class="m_o">=</span><span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_o">.</span><span class="m_n">nlargest</span><span class="m_p">(</span><span class="m_mi">5</span><span class="m_p">,[</span><span class="m_s1">&#39;<wbr>Value&#39;</span><span class="m_p">,</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">],</span> <span class="m_n">keep</span> <span class="m_o">=</span> <span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_n">fig_animated_all</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By State
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+                          Indicator     Group         State      Subgroup  \
+10064  Symptoms of Anxiety Disorder  By State  South Dakota  South Dakota   
+5965   Symptoms of Anxiety Disorder  By State       Wyoming       Wyoming   
+6407   Symptoms of Anxiety Disorder  By State  South Dakota  South Dakota   
+6839   Symptoms of Anxiety Disorder  By State  South Dakota  South Dakota   
+7037   Symptoms of Anxiety Disorder  By State     Minnesota     Minnesota   
+
+      Phase  Time Period      Time Period Label Time Period Start Date  \
+10064   3.4           45   Apr 27 - May 9, 2022             04/27/2022   
+5965    3.1           28  Apr 14 - Apr 26, 2021             04/14/2021   
+6407    3.1           30  May 12 - May 24, 2021             05/12/2021   
+6839    3.1           32   Jun 9 - Jun 21, 2021             06/09/2021   
+7037    3.1           33   Jun 23 - Jul 5, 2021             06/23/2021   
+
+      Time Period End Date  Value  Low CI  High CI Confidence Interval  \
+10064           05/09/2022   16.3    12.8     20.3         12.8 - 20.3   
+5965            04/26/2021   16.9    12.6     22.1         12.6 - 22.1   
+6407            05/24/2021   17.2    12.9     22.4         12.9 - 22.4   
+6839            06/21/2021   17.3    12.7     22.8         12.7 - 22.8   
+7037            07/05/2021   17.6    14.9     20.5         14.9 - 20.5   
+
+      Quartile Range  
+10064      16.3-24.7  
+5965       16.9-23.5  
+6407       17.2-23.4  
+6839       17.3-22.8  
+7037       17.6-22.5  
+                         Indicator     Group                 State  \
+4618  Symptoms of Anxiety Disorder  By State           Mississippi   
+3724  Symptoms of Anxiety Disorder  By State  District of Columbia   
+4364  Symptoms of Anxiety Disorder  By State             Louisiana   
+2436  Symptoms of Anxiety Disorder  By State                Oregon   
+2430  Symptoms of Anxiety Disorder  By State            New Mexico   
+
+                  Subgroup                Phase  Time Period  \
+4618           Mississippi   3 (Jan 6 â Mar 29)           22   
+3724  District of Columbia  3 (Oct 28 â Dec 21)           18   
+4364             Louisiana  3 (Oct 28 â Dec 21)           21   
+2436                Oregon                    1           12   
+2430            New Mexico                    1           12   
+
+            Time Period Label Time Period Start Date Time Period End Date  \
+4618     Jan 6 - Jan 18, 2021             01/06/2021           01/18/2021   
+3724     Oct 28 - Nov 9, 2020             10/28/2020           11/09/2020   
+4364     Dec 9 - Dec 21, 2020             12/09/2020           12/21/2020   
+2436  July 16 - July 21, 2020             07/16/2020           07/21/2020   
+2430  July 16 - July 21, 2020             07/16/2020           07/21/2020   
+
+      Value  Low CI  High CI Confidence Interval Quartile Range  
+4618   49.2    41.6     56.7         41.6 - 56.7      37.4-49.2  
+3724   45.6    38.9     52.4         38.9 - 52.4      38.4-45.6  
+4364   45.5    40.3     50.8         40.3 - 50.8      38.2-45.5  
+2436   45.4    40.4     50.6         40.4 - 50.6      38.5-45.4  
+2430   44.7    39.4     50.2         39.4 - 50.2      38.5-45.4  
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_028f9467-74a8-4975-af39-79bae5a3e939" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">#Visualization 3</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_one</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">box</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_two</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">box</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_n">fig_one</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+<span class="m_n">fig_two</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Education
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+Anxiety or Depression?Depression
+What is the primary comparison?By Education
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_236d59b6-93bc-4652-b0ff-e0213b2817ca" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_505418c3-e3e2-46fc-a009-6643ed35e225" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">#Visualization 4</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">fig</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">scatter</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s2">&quot;Time Period&quot;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s2">&quot;Value&quot;</span><span class="m_p">,</span> <span class="m_n">facet_col</span><span class="m_o">=</span><span class="m_s2">&quot;Subgroup&quot;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s2">&quot;Indicator&quot;</span><span class="m_p">,</span> <span class="m_n">trendline</span><span class="m_o">=</span><span class="m_s2">&quot;ols&quot;</span><span class="m_p">)</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_o">.</span><span class="m_n">nsmallest</span><span class="m_p">(</span><span class="m_mi">5</span><span class="m_p">,</span><span class="m_s1">&#39;<wbr>Value&#39;</span><span class="m_p">,</span><span class="m_n">keep</span> <span class="m_o">=</span> <span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_nb">print</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_o">.</span><span class="m_n">nlargest</span><span class="m_p">(</span><span class="m_mi">5</span><span class="m_p">,</span><span class="m_s1">&#39;<wbr>Value&#39;</span><span class="m_p">,</span><span class="m_n">keep</span> <span class="m_o">=</span> <span class="m_s1">&#39;all&#39;</span><span class="m_p">))</span>
+<span class="m_n">fig</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Sex
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+                         Indicator   Group          State Subgroup Phase  \
+7001  Symptoms of Anxiety Disorder  By Sex  United States     Male   3.1   
+6353  Symptoms of Anxiety Disorder  By Sex  United States     Male   3.1   
+6569  Symptoms of Anxiety Disorder  By Sex  United States     Male   3.1   
+7520  Symptoms of Anxiety Disorder  By Sex  United States     Male   3.2   
+6137  Symptoms of Anxiety Disorder  By Sex  United States     Male   3.1   
+
+      Time Period      Time Period Label Time Period Start Date  \
+7001           33   Jun 23 - Jul 5, 2021             06/23/2021   
+6353           30  May 12 - May 24, 2021             05/12/2021   
+6569           31   May 26 - Jun 7, 2021             05/26/2021   
+7520           35   Aug 4 - Aug 16, 2021             08/04/2021   
+6137           29  Apr 28 - May 10, 2021             04/28/2021   
+
+     Time Period End Date  Value  Low CI  High CI Confidence Interval  \
+7001           07/05/2021   20.2    19.1     21.3         19.1 - 21.3   
+6353           05/24/2021   22.0    21.1     23.0         21.1 - 23.0   
+6569           06/07/2021   22.1    21.1     23.2         21.1 - 23.2   
+7520           08/16/2021   22.4    21.3     23.6         21.3 - 23.6   
+6137           05/10/2021   22.5    21.5     23.6         21.5 - 23.6   
+
+     Quartile Range  
+7001            NaN  
+6353            NaN  
+6569            NaN  
+7520            NaN  
+6137            NaN  
+                         Indicator   Group          State Subgroup  \
+3916  Symptoms of Anxiety Disorder  By Sex  United States   Female   
+3706  Symptoms of Anxiety Disorder  By Sex  United States   Female   
+4336  Symptoms of Anxiety Disorder  By Sex  United States   Female   
+4126  Symptoms of Anxiety Disorder  By Sex  United States   Female   
+4584  Symptoms of Anxiety Disorder  By Sex  United States   Female   
+
+                    Phase  Time Period      Time Period Label  \
+3916  3 (Oct 28 â Dec 21)           19  Nov 11 - Nov 23, 2020   
+3706  3 (Oct 28 â Dec 21)           18   Oct 28 - Nov 9, 2020   
+4336  3 (Oct 28 â Dec 21)           21   Dec 9 - Dec 21, 2020   
+4126  3 (Oct 28 â Dec 21)           20   Nov 25 - Dec 7, 2020   
+4584   3 (Jan 6 â Mar 29)           22   Jan 6 - Jan 18, 2021   
+
+     Time Period Start Date Time Period End Date  Value  Low CI  High CI  \
+3916             11/11/2020           11/23/2020   42.9    41.9     43.9   
+3706             10/28/2020           11/09/2020   41.8    40.6     43.0   
+4336             12/09/2020           12/21/2020   41.1    40.0     42.2   
+4126             11/25/2020           12/07/2020   40.5    39.7     41.3   
+4584             01/06/2021           01/18/2021   40.5    39.7     41.4   
+
+     Confidence Interval Quartile Range  
+3916         41.9 - 43.9            NaN  
+3706         40.6 - 43.0            NaN  
+4336         40.0 - 42.2            NaN  
+4126         39.7 - 41.3            NaN  
+4584         39.7 - 41.4            NaN  
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_e15871c0-69ce-4dd5-bf1c-d13aa54e018c" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">#Visualization 5</span>
+<span class="m_c1">#Prep: compare basaelines</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_animated_all</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">scatter</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span><span class="m_n">size</span> <span class="m_o">=</span> <span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">,</span>
+                               <span class="m_n">animation_frame</span><span class="m_o">=</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">,</span> <span class="m_n">log_x</span><span class="m_o">=</span><span class="m_kc">False</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_n">fig_animated_all</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Race/Hispanic ethnicity
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_74c17a25-8608-46b9-992b-d195e48400f8" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">#Visualization 6 </span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_one</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">box</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_two</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">box</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">)</span>
+<span class="m_n">fig_one</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+<span class="m_n">fig_two</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Age
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stderr m_output_text">
+<pre>&lt;ipython-input-24-<wbr>b87b50d0b631&gt;:4: SettingWithCopyWarning:
+
+
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: <a href="https://www.google.com/url?q=https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html%23returning-a-view-versus-a-copy&amp;source=gmail-html&amp;ust=1671048780486000&amp;usg=AOvVaw2Hihg1sh8YMj6qMxIu45xM" target="_blank" rel="noreferrer">https://pandas.pydata.org/<wbr>pandas-docs/stable/user_guide/<wbr>indexing.html#returning-a-<wbr>view-versus-a-copy</a>
+
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Anxiety
+What is the primary comparison?By Education
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_d5cbb641-09ac-4271-98e6-8f4299a675b7" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_7a785ce2-e852-44cf-b717-eebb999d8e61" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_c1">#Visualization 7</span>
+<span class="m_n">graph_data</span> <span class="m_o">=</span> <span class="m_n">data_cleaner</span><span class="m_p">(</span><span class="m_n">criteria</span><span class="m_p">())</span>
+<span class="m_n">fig_animated_all</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">bar</span><span class="m_p">(</span><span class="m_n">graph_data</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">,</span>
+                               <span class="m_n">animation_frame</span><span class="m_o">=</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">,</span> <span class="m_n">log_x</span><span class="m_o">=</span><span class="m_kc">False</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Group&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">)</span>
+<span class="m_n">vfive</span> <span class="m_o">=</span> <span class="m_n">graph_data</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">-</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>mean</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">/</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Value&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n"><wbr>max</span><span class="m_p">()</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span><span class="m_o">.</span><span class="m_n">astype</span><span class="m_p">(</span><span class="m_nb">flo<wbr>at</span><span class="m_p">)</span>
+<span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">]</span> <span class="m_o">=</span> <span class="m_n">pd</span><span class="m_o">.</span><span class="m_n">to_numeric</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">[</span><span class="m_s1">&#39;<wbr>Normalized&#39;</span><span class="m_p">],</span> <span class="m_n">errors</span><span class="m_o">=</span><span class="m_s1">&#39;coerce&#39;</span><span class="m_p">)</span><span class="m_o">.</span><span class="m_n">fillna</span><span class="m_p">(</span><span class="m_mi">0</span><span class="m_p">)</span>
+<span class="m_n">fig_animated_norm</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">bar</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Normalized&#39;</span><span class="m_p">,</span>
+                               <span class="m_n">animation_frame</span><span class="m_o">=</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">,</span> <span class="m_n">log_x</span><span class="m_o">=</span><span class="m_kc">False</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Group&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">)</span>
+<span class="m_n">fig_animated_std</span> <span class="m_o">=</span> <span class="m_n">px</span><span class="m_o">.</span><span class="m_n">bar</span><span class="m_p">(</span><span class="m_n">vfive</span><span class="m_p">,</span> <span class="m_n">x</span><span class="m_o">=</span><span class="m_s1">&#39;Subgroup&#39;</span><span class="m_p">,</span> <span class="m_n">y</span><span class="m_o">=</span><span class="m_s1">&#39;Standardized&#39;</span><span class="m_p">,</span>
+                               <span class="m_n">animation_frame</span><span class="m_o">=</span><span class="m_s1">&#39;Time Period&#39;</span><span class="m_p">,</span> <span class="m_n">log_x</span><span class="m_o">=</span><span class="m_kc">False</span><span class="m_p">,</span>
+                              <span class="m_n">hover_name</span><span class="m_o">=</span><span class="m_s1">&#39;Group&#39;</span><span class="m_p">,</span> <span class="m_n">color</span><span class="m_o">=</span><span class="m_s1">&#39;Indicator&#39;</span><span class="m_p">)</span>
+
+<span class="m_n">fig_animated_all</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+<span class="m_n">fig_animated_norm</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+<span class="m_n">fig_animated_std</span><span class="m_o">.</span><span class="m_n">show</span><span class="m_p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>Anxiety or Depression?Depression
+What is the primary comparison?By Age
+What is the secondary level you would like to compare at? Press x for all subgroupsx
+What location scope are you looking at? Press x for all location levelsx
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_d707b699-92f1-492e-b49a-48a7b306dacf" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_f491df94-01fd-4bee-98be-4830effb6441" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+
+<div class="m_output_html m_rendered_html m_output_subarea">
+
+
+<div>
+    <div>                            
+                        <div id="m_42f82594-09a3-4488-81fe-03180df6168f" class="m_plotly-graph-div" style="height:525px;width:100%"></div>                    </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="m_cell m_border-box-sizing m_code_cell m_rendered">
+<div class="m_input">
+<div class="m_prompt m_input_prompt">In [ ]:</div>
+<div class="m_inner_cell">
+    <div class="m_input_area">
+<div class="m_highlight m_hl-python"><pre><span></span><span class="m_o">%%</span><span class="m_n">shell</span> 
+
+<span class="m_n">jupyter</span> <span class="m_n">nbconvert</span> <span class="m_o">--</span><span class="m_n">to</span> <span class="m_n">html</span> <span class="m_o">/</span><span class="m_n">content</span><span class="m_o">/</span><span class="m_n">FinalCode</span><span class="m_o">.</span><span class="m_n">ipynb</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="m_output_wrapper">
+<div class="m_output">
+
+
+<div class="m_output_area">
+
+    <div class="m_prompt"></div>
+
+
+<div class="m_output_subarea m_output_stream m_output_stdout m_output_text">
+<pre>[NbConvertApp] Converting notebook /content/FinalCode.ipynb to html
+[NbConvertApp] Writing 791292 bytes to /content/FinalCode.html
+</pre>
+</div>
+</div>
+
+<div class="m_output_area">
+
+    <div class="m_prompt m_output_prompt">Out[ ]:</div>
+
+
+
+
+<div class="m_output_text m_output_subarea m_output_execute_result">
+<pre></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+</div>
+
+ 
+
+
+
+</body></html>
